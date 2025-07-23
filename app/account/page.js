@@ -9,7 +9,9 @@ export default function Page() {
     <div>
       {" "}
       {/* <Navigation /> */}
-      <h1>Your Account</h1>
+      <h2 className="font-semibold text-2xl text-accent-400 mb-7">
+        Welcome , Jonas
+      </h2>
     </div>
   );
 }

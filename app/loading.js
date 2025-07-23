@@ -1,5 +1,7 @@
+import Spinner from "@/app/_components/Spinner";
+
 export default function Loading() {
-  return <p>LOADING DATA...</p>;
+  return <Spinner />;
 }
 
 // only defining this loader here next js automatically show this indicator when any page fetching the data actually  data on the server is start streaming it is not going in one go on the client side it is streamed (means send in pieces not as whole) next js use "renderToReadableStream" it is not called "renderToString" that we learn in fundamental of react next js this is part of dom methods and streaming only work when you alow your browser for javascript enable not javascript disable

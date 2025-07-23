@@ -34,8 +34,8 @@ export default function RootLayout({ children }) {
         className={`${josefin.className} antialiased relative bg-primary-950 min-h-screen text-primary-100 flex flex-col`}
       >
         <Header />
-        <div className="flex-1 px-8 py-12">
-          <main className="max-w-7xl mx-auto">{children}</main>
+        <div className="flex-1 px-8 py-12 grid">
+          <main className="max-w-7xl mx-auto w-full">{children}</main>
         </div>
         {/* <footer>Copyright by the wild oasis</footer> */}
       </body>
