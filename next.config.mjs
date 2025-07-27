@@ -10,6 +10,7 @@ const nextConfig = {
       },
     ],
   },
+  // output : "export" this is used when we want to generate complete SSG website.
 };
 
 export default nextConfig;

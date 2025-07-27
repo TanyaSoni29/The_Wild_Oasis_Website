@@ -7,6 +7,8 @@ import { Suspense } from "react";
 import Spinner from "../_components/Spinner";
 
 // import Counter from "@/app/_components/Counter"; // importing using alias
+// export const revalidate = 0; // here the revalidate value is not be computed it should actually a value means it can't have some variable and the compute by using that variable like 5 time that variable this is not acceptable
+export const revalidate = 3600; // this value is always in seconds 
 
 export const metadata = {
   title: "Cabins", // now by defining this the web title in browser tab change means over write with the layout metaData which is global
@@ -47,7 +49,7 @@ export default function Page() {
         home away from home. The perfect spot for a peaceful, calm vacation.
         Welcome to paradise.
       </p>
-      
+
       {/* Suspense fallback inside should contain jsx so thats why we attach Spinner component */}
       <Suspense fallback={<Spinner />}>
         <CabinList />
