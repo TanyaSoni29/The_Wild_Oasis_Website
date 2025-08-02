@@ -1,8 +1,9 @@
 import SelectCountry from "@/app/_components/SelectCountry";
+import UpdateProfileForm from "@/app/_components/UpdateProfileForm";
 
 export const metadata = {
-    title: "Update Profile"
-}
+  title: "Update Profile",
+};
 
 export default function Page() {
   // CHANGE
@@ -14,13 +15,14 @@ export default function Page() {
       <h2 className="font-semibold text-2xl text-accent-400 mb-4">
         Update your guest profile
       </h2>
-
       <p className="text-lg mb-8 text-primary-200">
         Providing the following information will make your check-in process
         faster and smoother. See you soon!
       </p>
-
-      <form className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
+      {/* Example of importing server component inside the Client Component Suppose
+      this form need some states in future so we have to make this form Client
+      Component let start the form moving there so to fix the issue we pass server component as prop here we passing as children prop */}
+      {/* <form className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
         <div className="space-y-2">
           <label>Full name</label>
           <input
@@ -68,7 +70,16 @@ export default function Page() {
             Update profile
           </button>
         </div>
-      </form>
+      </form> */}
+
+      <UpdateProfileForm>
+        <SelectCountry
+          name="nationality"
+          id="nationality"
+          className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
+          defaultCountry={nationality}
+        />
+      </UpdateProfileForm>
     </div>
   );
 }
