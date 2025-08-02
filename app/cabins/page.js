@@ -8,7 +8,7 @@ import Spinner from "../_components/Spinner";
 
 // import Counter from "@/app/_components/Counter"; // importing using alias
 // export const revalidate = 0; // here the revalidate value is not be computed it should actually a value means it can't have some variable and the compute by using that variable like 5 time that variable this is not acceptable
-export const revalidate = 3600; // this value is always in seconds 
+export const revalidate = 3600; // this value is always in seconds
 
 export const metadata = {
   title: "Cabins", // now by defining this the web title in browser tab change means over write with the layout metaData which is global
@@ -33,7 +33,12 @@ export const metadata = {
 //   );
 // }
 
-export default function Page() {
+export default function Page({ searchParams }) {
+  // console.log(searchParams); // we want to implement filter in page cabin overview page and for filter we need client interactivity we know that but this filter state data is on client side and the client overView page is on server side hence there is very big question about how we send this filter data to the server so the best way is to set this data in url and if we set in url then in server page component we can easily get access of this query params as above as props hence url s the best way to share state between client and server component
+  
+  // one more important thing to know as we are using searchParams so they are not known at the run time so this page is not statically rendered now this page will become dynamically render as request are dynamic in searchParams and the revalidate that we define above is not have meaning as it is for revalidation for statically generated pages. that's why we can now comment as well 
+  const filter = searchParams?.capacity ?? "all";
+
   // CHANGE
   // const cabins = await getCabins();
   return (
@@ -52,7 +57,7 @@ export default function Page() {
 
       {/* Suspense fallback inside should contain jsx so thats why we attach Spinner component */}
       <Suspense fallback={<Spinner />}>
-        <CabinList />
+        <CabinList filter={filter} />
       </Suspense>
     </div>
   );
