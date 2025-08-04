@@ -1,11 +1,10 @@
 // import Navigation from "../components/Navigation";
 
-import CabinCard from "@/app/_components/CabinCard";
-import { getCabins } from "../_lib/data-service";
-import CabinList from "../_components/CabinList";
 import { Suspense } from "react";
-import Spinner from "../_components/Spinner";
+import CabinList from "../_components/CabinList";
 import Filter from "../_components/Filter";
+import Spinner from "../_components/Spinner";
+import ReservationReminder from "../_components/ReservationReminder";
 
 // import Counter from "@/app/_components/Counter"; // importing using alias
 // export const revalidate = 0; // here the revalidate value is not be computed it should actually a value means it can't have some variable and the compute by using that variable like 5 time that variable this is not acceptable
@@ -69,6 +68,7 @@ export default function Page({ searchParams }) {
       {/* Filter will work as unique key for this suspense boundary to reset it again so whenever the filter value change the fallback so again */}
       <Suspense fallback={<Spinner />} key={filter}>
         <CabinList filter={filter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );

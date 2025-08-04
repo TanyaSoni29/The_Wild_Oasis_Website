@@ -1,7 +1,11 @@
+import Cabin from "@/app/_components/Cabin";
+import Reservation from "@/app/_components/Reservation";
+import Spinner from "@/app/_components/Spinner";
 import TextExpander from "@/app/_components/TextExpander";
 import { getCabin, getCabins } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import { Suspense } from "react";
 
 // PLACEHOLDER DATA
 // const cabin = {
@@ -36,12 +40,17 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }) {
   const cabin = await getCabin(params.cabinId);
-  const { id, name, maxCapacity, regularPrice, discount, image, description } =
-    cabin;
+  // const settings = await getSettings();
+  // const bookedDates = await getBookedDatesByCabinId(params.cabinId);
+  // above we are fetching so many pieces of data which are not linked with each other means they are independent the above three fetching shows blocking waterfall , blocking waterfall means we are fetching multiple pieces of data that does not depend on each other but they are blocking one and another one approach to fix this is to use Promise.all then we will get this data in parallel in Promise.all we pass array of promises
+  // const [cabins, settings, bookedDates] = await Promise.all([getCabin(params.cabinId), getSettings(), getBookedDatesByCabinId(params.cabinId)]); like this but this approach is also not perfect as it will be fast upto its slowest promise resolve this is better but best is we can make different bunch of components and then each component fetch all data instead of fetching all data in Parent Component and those bunch of component can be streamed as they ready with the data. so we make one component that have both two client component date selector and reservation form.
+  // here we can use that next js caching that we can fetch data in many component but due to caching it make only one request but we are not using here because we have only one level of prop passing in cabin data if it is deep then we use that caching strategies
+  // const { id, name, maxCapacity, regularPrice, discount, image, description } =
+  //   cabin;
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
-      <div className="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24">
+      {/* <div className="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24">
         <div className="relative scale-[1.15] -translate-x-3">
           <Image
             src={image}
@@ -83,12 +92,20 @@ export default async function Page({ params }) {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
+      <Cabin cabin={cabin} />
 
       <div>
-        <h2 className="text-5xl font-semibold text-center">
-          Reserve today. Pay on arrival.
+        <h2 className="text-5xl font-semibold text-center mb-10 text-accent-400">
+          Reserve {cabin.name} today. Pay on arrival.
         </h2>
+        {/* <div className="grid grid-cols-2 border border-primary-800 min-h-[400px]">
+          <DateSelector />
+          <ReservationForm />
+        </div> */}
+        <Suspense fallback={<Spinner />}>
+          <Reservation cabin={cabin} />
+        </Suspense>
       </div>
     </div>
   );
