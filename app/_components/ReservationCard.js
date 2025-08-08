@@ -16,7 +16,7 @@ function ReservationCard({ booking }) {
     numNights,
     totalPrice,
     numGuests,
-    status,
+    // status,
     created_at,
     cabins: { name, image },
   } = booking;
