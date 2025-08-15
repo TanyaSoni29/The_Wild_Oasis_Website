@@ -19,31 +19,31 @@ export default function Filter() {
     // after all these set up in the client side now our client server interaction in filter is ready.. here we see small issue now whenever we change filter value it takes 2 second to load that filter value but in mean time screen does not show that Spinner this is because next navigation is always wrapped inside the React transition and in a transition Suspense will not hide the content that has already been rendered So that just the default behavior of suspense we are seeing here it will wait for swapping the content as soon as new content arrive but luckily for us we can actually fix this by passing unique key in Suspense component. so let's move on Page
   }
   return (
-    <div className="border border-primary-800 flex">
+    <div className='border border-primary-800 flex'>
       <Button
         handleFilter={handleFilter}
-        filter="all"
+        filter='all'
         activeFilter={activeFilter}
       >
         All cabins
       </Button>
       <Button
         handleFilter={handleFilter}
-        filter="small"
+        filter='small'
         activeFilter={activeFilter}
       >
         1&mdash;3 guests
       </Button>
       <Button
         handleFilter={handleFilter}
-        filter="medium"
+        filter='medium'
         activeFilter={activeFilter}
       >
         4&mdash;7 guests
       </Button>
       <Button
         handleFilter={handleFilter}
-        filter="large"
+        filter='large'
         activeFilter={activeFilter}
       >
         8&mdash;12 guests
