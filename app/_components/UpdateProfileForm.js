@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+// import { useState } from "react";
 
 export default function UpdateProfileForm({ children }) {
-  const [count, setCount] = useState();
+  // const [count, setCount] = useState(); this state is to show that if states are written then we have to make component client component 
   
   return (
     <form className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col">
