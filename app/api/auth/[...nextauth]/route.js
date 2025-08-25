@@ -2,8 +2,7 @@
 
 // in this route.js file we do similar thing we have import these GET and POST from nextAuth and simply export them (immediately)
 
-export { GET, POST } from "@/app/_lib/auth";
-
+export { GET, POST } from "@/app/_lib/auth"; 
 // After saving this and reloading the website now you can go to localhost:3000/api/auth/signin or any signup and if you get google signin button then your auth from google provider is set up correctly
 
 // behind the scenes next js created all the route like signin and signup that start with /api/auth
