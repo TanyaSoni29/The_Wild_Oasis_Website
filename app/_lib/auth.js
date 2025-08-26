@@ -19,7 +19,7 @@ const authConfig = {
       // it is like middleware as it will run before the signin process completion actually it put credentials before user login
       // we have access of all these user, account , profile nut here we only need user
       try {
-        const existingGuest = await getGuest(user.email);
+        const existingGuest = await getGuest(user?.email);
         // if existing Guest then return true
         if (!existingGuest)
           await createGuest({ email: user.email, fullName: user.name }); // here don't forget to write await other wise it immediately return true and move to next middleware that is session
