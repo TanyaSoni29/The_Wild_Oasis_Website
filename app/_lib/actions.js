@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { getBookings } from "./data-service";
+import { redirect } from "next/navigation";
 // by default we have access of formData when we use server action in action attribute of form does not need to pass that data to server action
 export async function updateGuest(formData) {
   // console.log("Server ACtions");
@@ -57,6 +58,40 @@ export async function deleteGuestReservation(bookingId) {
   if (error) throw new Error("Booking could not be deleted");
   // we have revalidate Tag (for some pieces of data that we fetched) also to go more specifically but here it is better way and easy as well and also note that we are not using native fetch function we are using supabase for data so it is harder to use revalidatePath or we can say it is impossible might be
   revalidatePath("/account/reservations");
+}
+
+export async function updateBooking(formData) {
+  const bookingId = Number(formData.get("bookingId"));
+  // Authentication
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+
+  // Authorization
+  const guestBookings = await getBookings(session.user.guestId);
+  const guestBookingIds = guestBookings.map((booking) => booking.id);
+
+  if (!guestBookingIds.includes(bookingId))
+    throw new Error("You are not allowed to update this booking");
+  // building updateData
+  const updateData = {
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000), // here users can't spam that's why we take only upto 1000
+  };
+
+  // Mutation
+  const { error } = await supabase
+    .from("bookings")
+    .update(updateData)
+    .eq("id", bookingId)
+    .select()
+    .single();
+  // error handling
+  if (error) throw new Error("Booking could not be updated");
+  // revalidation should occur before redirecting
+  revalidatePath(`/account/reservations/edit/${bookingId}`);
+  revalidatePath("/account/reservations");
+  // successful update then redirect to reservations
+  redirect("/account/reservations");
 }
 
 // this is first action that this action file contains why we defining this we will learn letter
