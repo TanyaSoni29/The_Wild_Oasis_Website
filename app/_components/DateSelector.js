@@ -1,16 +1,21 @@
 "use client";
 
-import { isWithinInterval } from "date-fns";
+import {
+  differenceInDays,
+  isPast,
+  isSameDay,
+  isWithinInterval,
+} from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useReservation } from "./ReservationContext";
 
 function isAlreadyBooked(range, datesArr) {
   return (
-    range.from &&
-    range.to &&
+    range?.from &&
+    range?.to &&
     datesArr.some((date) =>
-      isWithinInterval(date, { start: range.from, end: range.to })
+      isWithinInterval(date, { start: range?.from, end: range?.to })
     )
   );
 }
@@ -21,11 +26,12 @@ function DateSelector({ settings, bookedDates, cabin }) {
   //   to: undefined,
   // });
   const { range, setRange, resetRange } = useReservation();
-  // CHANGE
-  const regularPrice = 23;
-  const discount = 23;
-  const numNights = 23;
-  const cabinPrice = 23;
+
+  const displayedRange = isAlreadyBooked(range, bookedDates) ? {} : range;
+
+  const { regularPrice, discount } = cabin;
+  const numNights = differenceInDays(displayedRange.to, displayedRange.from);
+  const cabinPrice = numNights * (regularPrice - discount);
   // const range = { from: null, to: null };
 
   // SETTINGS
@@ -38,7 +44,7 @@ function DateSelector({ settings, bookedDates, cabin }) {
         mode="range"
         // onSelect={(range) => setRange(range)} we can do like this as well as below it work same
         onSelect={setRange}
-        selected={range}
+        selected={displayedRange}
         min={minBookingLength + 1}
         max={maxBookingLength}
         fromMonth={new Date()}
@@ -48,7 +54,16 @@ function DateSelector({ settings, bookedDates, cabin }) {
         numberOfMonths={2}
         classNames={{
           months: "flex flex-row gap-2", // Tailwind for row layout
+          selected: "bg-accent-500 text-white", // single day
+          range_start: "bg-accent-500 text-white rounded-l-full", // start date
+          range_end: "bg-accent-500 text-white rounded-r-full", // end date
+          range_middle: "bg-accent-500 text-white", // m
         }}
+        disabled={
+          (currentDate) =>
+            isPast(currentDate) ||
+            bookedDates.some((date) => isSameDay(date, currentDate)) // actually we want to return true if currentDate is Same as dates in bookedDates Array so we does not use includes as we need to check using date-fns function so we use some method and includes is not using because may be these dates have different format
+        }
       />
 
       <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-[62px]">
@@ -99,5 +114,3 @@ export default DateSelector;
 //2. Storing this date range in parent component for that we have to make one more component parent of DateSelector and reservation Form and we already know this strategy
 //3. Context Api in Next js how we implement to share this date state
 // COntext Api only works for client component so we want to share state between server and client we use url method and we want to share state between client components then we use Context Api or redux
-
-

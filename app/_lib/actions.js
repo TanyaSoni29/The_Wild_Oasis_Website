@@ -38,6 +38,31 @@ export async function updateGuest(formData) {
   revalidatePath("/account/profile");
 }
 
+export async function createBooking(bookingData, formData) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+  // if we have two many fields in formData the we can do Object.entries(formData.entries())
+  const newBooking = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000),
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    isPaid: false,
+    hasBreakfast: false,
+    status: "unconfirmed",
+  };
+  // as this data is lot then to validate the data we can use library Zod which is very popular these days
+  const { error } = await supabase.from("bookings").insert([newBooking]);
+
+  if (error) throw new Error("Booking could not be created");
+
+  revalidatePath(`/cabins/${bookingData.cabinId}`);
+  // after reserving we need to redirect to thankyou
+  redirect("/cabins/thankyou");
+}
+
 // delete Reservation server action
 // if we open network and check currently delete booking then if we go copy and copy as curl and then paste to terminal then we have access of currently deleted booking id now any one can change this id and delete our reservation so here we need extra protection (leakage of bookingId - last as raw data) to protect we want only guest can delete its booking get all the bookings by users then check if the id that has been passed is same as bookings id that user have then delete other wise show error
 export async function deleteGuestReservation(bookingId) {
