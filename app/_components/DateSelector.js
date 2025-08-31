@@ -99,3 +99,5 @@ export default DateSelector;
 //2. Storing this date range in parent component for that we have to make one more component parent of DateSelector and reservation Form and we already know this strategy
 //3. Context Api in Next js how we implement to share this date state
 // COntext Api only works for client component so we want to share state between server and client we use url method and we want to share state between client components then we use Context Api or redux
+
+
