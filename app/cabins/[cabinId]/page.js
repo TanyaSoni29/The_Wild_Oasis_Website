@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import Cabin from "@/app/_components/Cabin";
 import Reservation from "@/app/_components/Reservation";
 import Spinner from "@/app/_components/Spinner";
