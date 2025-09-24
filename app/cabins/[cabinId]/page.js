@@ -17,9 +17,14 @@ export async function generateMetadata({ params }) {
 
 // conversion of this dynamic pages to static page by providing all possible value of cabin ids but we does not provide manually but through the fetching of all cabin ids
 export async function generateStaticParams() {
+  try {
   const cabins = await getCabins();
   const ids = cabins?.map((cabin) => ({ cabinId: String(cabin?.id) })); // params are string here we return an object with property cabinId because that variable we used in defining the route
   return ids;
+  } catch (error) {
+    console.error('Failed to fetch cabins for static generation:', error);
+    return [];
+  }
 }
 
 export default async function Page({ params }) {
