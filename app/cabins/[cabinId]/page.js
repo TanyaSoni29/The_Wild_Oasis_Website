@@ -9,7 +9,7 @@ import { Suspense } from "react";
 // };
 
 export async function generateMetadata({ params }) {
-  const { name } = await getCabin(params.cabinId); // after this fetching metadata is display first before the data show in the page means title of head is set first then streaming of ui to client. hence guaranty of first streaming of this metadata then streaming of page data
+  const { name } = await getCabin(params?.cabinId); // after this fetching metadata is display first before the data show in the page means title of head is set first then streaming of ui to client. hence guaranty of first streaming of this metadata then streaming of page data
   return {
     title: `Cabin ${name}`,
   };
@@ -18,12 +18,12 @@ export async function generateMetadata({ params }) {
 // conversion of this dynamic pages to static page by providing all possible value of cabin ids but we does not provide manually but through the fetching of all cabin ids
 export async function generateStaticParams() {
   const cabins = await getCabins();
-  const ids = cabins.map((cabin) => ({ cabinId: String(cabin.id) })); // params are string here we return an object with property cabinId because that variable we used in defining the route
+  const ids = cabins?.map((cabin) => ({ cabinId: String(cabin?.id) })); // params are string here we return an object with property cabinId because that variable we used in defining the route
   return ids;
 }
 
 export default async function Page({ params }) {
-  const cabin = await getCabin(params.cabinId);
+  const cabin = await getCabin(params?.cabinId);
   // const settings = await getSettings();
   // const bookedDates = await getBookedDatesByCabinId(params.cabinId);
   // above we are fetching so many pieces of data which are not linked with each other means they are independent the above three fetching shows blocking waterfall , blocking waterfall means we are fetching multiple pieces of data that does not depend on each other but they are blocking one and another one approach to fix this is to use Promise.all then we will get this data in parallel in Promise.all we pass array of promises
