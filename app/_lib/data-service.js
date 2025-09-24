@@ -48,7 +48,7 @@ export const getCabins = async function () {
     throw new Error("Cabins could not be loaded");
   }
 
-  return data;
+  return data || [];
 };
 
 // Guests are uniquely identified by their email address
