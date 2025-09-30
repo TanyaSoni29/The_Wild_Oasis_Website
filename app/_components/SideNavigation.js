@@ -12,25 +12,25 @@ const navLinks = [
   {
     name: "Home",
     href: "/account",
-    icon: <HomeIcon className="h-5 w-5 text-primary-600" />,
+    icon: <HomeIcon className='h-5 w-5 text-primary-600' />,
   },
   {
     name: "Reservations",
     href: "/account/reservations",
-    icon: <CalendarDaysIcon className="h-5 w-5 text-primary-600" />,
+    icon: <CalendarDaysIcon className='h-5 w-5 text-primary-600' />,
   },
   {
     name: "Guest profile",
     href: "/account/profile",
-    icon: <UserIcon className="h-5 w-5 text-primary-600" />,
+    icon: <UserIcon className='h-5 w-5 text-primary-600' />,
   },
 ];
 
 function SideNavigation() {
   const pathname = usePathname(); // custom hook of next js but it is a react hook and it needs to use in client component
   return (
-    <nav className="border-r border-primary-900">
-      <ul className="flex flex-col gap-2 h-full text-lg">
+    <nav className='border-r border-primary-900'>
+      <ul className='flex flex-col gap-2 h-full text-lg'>
         {navLinks.map((link) => (
           <li key={link.name}>
             <Link
@@ -45,7 +45,7 @@ function SideNavigation() {
           </li>
         ))}
 
-        <li className="mt-auto">
+        <li className='mt-auto'>
           <SignOutButton />
         </li>
       </ul>
